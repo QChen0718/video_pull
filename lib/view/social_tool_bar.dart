@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_videolist/model/videolistmodel.dart';
+import 'package:lottie/lottie.dart';
 // import 'package:gfapp/route/navigator_util.dart';
 // import 'package:gfapp/widgets/button/custom_like_button.dart'; //点赞
 // import 'package:gfapp/widgets/button/favorite_button.dart'; //收藏
@@ -9,8 +10,7 @@ import 'package:flutter_app_videolist/model/videolistmodel.dart';
 class SocialToolBar extends StatelessWidget {
   /// 视频数据源
   final VideoListSubDataModel video;
-
-  const SocialToolBar({Key key, @required this.video})
+  SocialToolBar({Key key, @required this.video})
       : assert(video != null),
         super(key: key);
 
@@ -19,7 +19,8 @@ class SocialToolBar extends StatelessWidget {
   static const double ShareActionIconSize = 25.0;
   static const double ProfileImageSize = 50.0;
   static const double PlusIconSize = 20.0;
-
+  ValueNotifier<bool> isFavorite = ValueNotifier(false);
+  ValueNotifier<bool> isStar = ValueNotifier(false);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -38,8 +39,21 @@ class SocialToolBar extends StatelessWidget {
               SizedBox(height: 10),
               Column(
                 children: [
-                  Icon(Icons.favorite_rounded,
-                  size: 35.0, color: Colors.white),
+                  ValueListenableBuilder(
+                      valueListenable: isFavorite, 
+                      builder: (context,value,child){
+                        return GestureDetector(
+                          child: Offstage(
+                            offstage: false ,
+                            child: value == true ? Lottie.asset('images/favorite.json',width: 35.0,height: 35.0,repeat: false,fit: BoxFit.fill): Icon(Icons.favorite_rounded,
+                                size: 35.0, color: Colors.white),
+                          ),
+                          onTap: (){
+                            isFavorite.value = !value;
+                          },
+                        );
+                      }
+                  ),
                   Padding(
                     padding: EdgeInsets.only(top: 2.0),
                     child: Text('666',
@@ -86,8 +100,22 @@ class SocialToolBar extends StatelessWidget {
               // ),
               Column(
                 children: [
-                  Icon(Icons.star_rounded,
-                  size: 35.0, color: Colors.white),
+                  ValueListenableBuilder(
+                      valueListenable: isStar,
+                      builder: (context,value,child){
+                        return GestureDetector(
+                          child: Offstage(
+                            offstage: false ,
+                            child: value == true ? Lottie.asset('images/star.json',width: 35.0,height: 35.0,repeat: false,fit: BoxFit.fill): Icon(Icons.star_rounded,
+                                size: 35.0, color: Colors.white),
+                          ),
+                          onTap: (){
+                            isStar.value = !value;
+                          },
+                        );
+                      }
+                  ),
+
                   Padding(
                     padding: EdgeInsets.only(top: 2.0),
                     child: Text('666',

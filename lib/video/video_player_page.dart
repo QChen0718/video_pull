@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app_videolist/actions/appinfo.dart';
 import 'package:flutter_app_videolist/actions/toast_util.dart';
-import 'package:flutter_app_videolist/model/basemodel.dart';
-import 'package:flutter_app_videolist/model/video_model.dart';
 import 'package:flutter_app_videolist/model/videolistmodel.dart';
 import 'package:flutter_app_videolist/newhttp/request_manager.dart';
 import 'package:flutter_app_videolist/view/multiple_video_player.dart';

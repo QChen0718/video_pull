@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_videolist/actions/sputil.dart';
+import 'package:flutter_app_videolist/video/video_list_page.dart';
 import 'package:flutter_app_videolist/video/video_player_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 /// 监视页面切换(RouteObserver & RouteAware)
