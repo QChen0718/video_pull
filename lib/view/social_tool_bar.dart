@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_videolist/model/videolistmodel.dart';
+import 'package:flutter_app_videolist/video/video_list_page.dart';
 import 'package:lottie/lottie.dart';
 // import 'package:gfapp/route/navigator_util.dart';
 // import 'package:gfapp/widgets/button/custom_like_button.dart'; //点赞
@@ -61,43 +62,7 @@ class SocialToolBar extends StatelessWidget {
                   )
                 ],
               ),
-              // CustomLikeExtraButton(
-              //   dynamicId: video?.dynamicValue?.dynamicId ?? '',
-              //   normalBuilder: (context) {
-              //     return Icon(Icons.favorite_rounded,
-              //         size: 35.0, color: Colors.white);
-              //   },
-              //   activeBuilder: (context) {
-              //     return Icon(Icons.favorite_rounded,
-              //         size: 35.0, color: Colors.redAccent);
-              //   },
-              //   textBuilder: (context, num) {
-              //     return Padding(
-              //       padding: EdgeInsets.only(top: 2.0),
-              //       child: Text(num.toString(),
-              //           style: TextStyle(fontSize: 12.0, color: Colors.white)),
-              //     );
-              //   },
-              // ),
               SizedBox(height: 10),
-              // FavoriteExtraButton(
-              //   dynamicId: video?.dynamicValue?.dynamicId ?? '',
-              //   normalBuilder: (context) {
-              //     return Icon(Icons.star_rounded,
-              //         size: 35.0, color: Colors.white);
-              //   },
-              //   activeBuilder: (context) {
-              //     return Icon(Icons.star_rounded,
-              //         size: 35.0, color: Color(0xfff2bd41));
-              //   },
-              //   textBuilder: (context, num) {
-              //     return Padding(
-              //       padding: EdgeInsets.only(top: 2.0),
-              //       child: Text(num.toString(),
-              //           style: TextStyle(fontSize: 12.0, color: Colors.white)),
-              //     );
-              //   },
-              // ),
               Column(
                 children: [
                   ValueListenableBuilder(
@@ -162,8 +127,7 @@ class SocialToolBar extends StatelessWidget {
       left: (ActionWidgetSize / 2) - (ProfileImageSize / 2),
       child: GestureDetector(
         onTap: () {
-          // NavigatorUtil.goPersonalPage(cxt,
-          //     memberId: video?.dynamicValue?.memberId, needQueryRole: true);
+          Navigator.push(cxt, MaterialPageRoute(builder: (context) => VideoListPage()));
         },
         //圆角头像
         child: CircleAvatar(
