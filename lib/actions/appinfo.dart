@@ -16,6 +16,8 @@ class APPInfo{
   static String DES_KEY_STR = "XCHONGKJ";
   static String encryptstr;
 //
+  static int index;
+  static int oldIndex = 0;
   static const productLiving  = 2;// 产品路演
   static const treasureLiving = 6;// 财富讲坛
   static bool get isDebug => !bool.fromEnvironment("dart.vm.product");

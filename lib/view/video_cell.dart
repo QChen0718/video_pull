@@ -32,6 +32,22 @@ class VideoItemViewState extends State<VideoItemView> {
     });
     _videoPlayerController.setLooping(true);
   }
+  void stopVideoPlayer(){
+    if(_videoPlayerController != null){
+      _videoPlayerController.pause();
+    }
+  }
+  void playOrPause(){
+    if(_videoPlayerController != null){
+      if(_isShowPlayButton.value == true){
+        _videoPlayerController.play();
+        _isShowPlayButton.value = false;
+      }else{
+        _videoPlayerController.pause();
+        _isShowPlayButton.value = true;
+      }
+    }
+  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -45,7 +61,9 @@ class VideoItemViewState extends State<VideoItemView> {
           Stack(
             alignment: Alignment.center,
             children: [
-              AsperctRaioImage.network(
+              GestureDetector(
+                onTap: () => playOrPause(),
+                child: AsperctRaioImage.network(
                     fmurl,
                     builder: (context,snapshot,url){
                       if(!snapshot.hasData){
@@ -68,9 +86,10 @@ class VideoItemViewState extends State<VideoItemView> {
                       );
                     }
                 ),
+              ),
               Positioned(
                   child: Text(
-                    '学生搞副业居然做到月入15万',
+                    widget.dataModel.guest,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold

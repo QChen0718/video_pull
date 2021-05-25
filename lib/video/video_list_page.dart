@@ -41,17 +41,28 @@ class _VideoListPageState extends State<VideoListPage> {
           '视频列表'
         ),
       ),
-      body: ListView.builder(
-        itemCount: _videoList.length,
-        itemBuilder: (context,index){
-          return Container(
-            child: VideoItemView(
-              key: _videoPlayerKeys[index],
-              dataModel: _videoList[index],)
-          );
+      body: NotificationListener<ScrollNotification>(
+        onNotification: (scrollNotification){
+          if(scrollNotification is ScrollEndNotification){
+            _onEndScroll(scrollNotification.metrics);
+          }
+          return true;
         },
+        child: ListView.builder(
+          itemCount: _videoList.length,
+          itemBuilder: (context,index){
+            return Container(
+                child: VideoItemView(
+                  key: _videoPlayerKeys[index],
+                  dataModel: _videoList[index],)
+            );
+          },
+        ),
       ),
     );
+  }
+  _onEndScroll(ScrollMetrics metrics){
+    print("Scroll End");
   }
   // 网络请求数据
   Future<List<VideoListSubDataModel>> _fetchVideoData() async {
@@ -76,3 +87,4 @@ class _VideoListPageState extends State<VideoListPage> {
     }
   }
 }
+

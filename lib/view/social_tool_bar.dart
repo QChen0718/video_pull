@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_videolist/model/videolistmodel.dart';
-import 'package:flutter_app_videolist/video/video_list_page.dart';
+import 'package:flutter_app_videolist/video/video_list/view.dart';
+// import 'package:flutter_app_videolist/video/video_list_page.dart';
 import 'package:lottie/lottie.dart';
 // import 'package:gfapp/route/navigator_util.dart';
 // import 'package:gfapp/widgets/button/custom_like_button.dart'; //点赞
