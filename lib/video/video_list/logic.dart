@@ -20,7 +20,7 @@ class VideoListLogic extends GetxController {
       state.videoPlayerKeys.add(GlobalKey());
     });
     Future.delayed(Duration(milliseconds: 500), () {
-      state.videoPlayerKeys[0].currentState?.initVideoPlayer();
+      state.videoPlayerKeys[0].currentState.startVideoPlayer();
     });
     update(); //刷新数据
   }

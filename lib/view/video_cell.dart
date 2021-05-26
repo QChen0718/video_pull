@@ -20,38 +20,95 @@ class VideoItemViewState extends State<VideoItemView> {
     // TODO: implement initState
     super.initState();
     _isShowPlayButton = ValueNotifier(true);
+    initVideo();
   }
-  void initVideoPlayer(){
-    _videoPlayerController = VideoPlayerController.network(widget.dataModel?.files);
-    _videoPlayerController.initialize().then((value){
-      _videoPlayerController.play();
-      _isShowPlayButton.value = false;
-      setState(() {
-
-      });
-    });
-    _videoPlayerController.setLooping(true);
-  }
-  void stopVideoPlayer(){
-    if(_videoPlayerController != null){
-      _videoPlayerController.pause();
+  // 初始化播放器
+  void initVideo(){
+    if(_videoPlayerController == null){
+      _videoPlayerController = VideoPlayerController.network(widget.dataModel?.files);
+      _videoPlayerController.setLooping(true);
     }
   }
-  void playOrPause(){
-    if(_videoPlayerController != null){
-      if(_isShowPlayButton.value == true){
+  //  开始播放视频
+  void startVideoPlayer(){
+    // 判断一下视频是否初始化，
+    if(!_videoPlayerController.value.isInitialized){
+      _videoPlayerController.initialize().then((value){
         _videoPlayerController.play();
         _isShowPlayButton.value = false;
-      }else{
-        _videoPlayerController.pause();
-        _isShowPlayButton.value = true;
+        setState(() {
+
+        });
+      });
+    }else {
+      if(!_videoPlayerController.value.isPlaying){
+        _videoPlayerController.play();
+        _isShowPlayButton.value = false;
       }
     }
+    APPInfo.oldVideoPlayerController = _videoPlayerController;
+    APPInfo.oldIsShowPlayButton = _isShowPlayButton;
+  }
+  //停止上个视频的播放
+  void stopVideoPlayer() {
+    if(APPInfo.oldVideoPlayerController != null && APPInfo.oldIsShowPlayButton != null){
+      APPInfo.oldVideoPlayerController.pause();
+      APPInfo.oldIsShowPlayButton.value = true;
+    }
+  }
+  //播放或者暂停
+  void playOrPause(){
+    if(_videoPlayerController != null){
+      if(_videoPlayerController.value.isPlaying){
+        _videoPlayerController.pause();
+        _isShowPlayButton.value = true;
+      }else{
+        //判断是否初始化视频
+        if(_videoPlayerController.value.isInitialized){
+          // 直接播放
+           _videoPlayerController.play();
+        }else {
+          // 初始化
+          startVideoPlayer();
+        }
+        _isShowPlayButton.value = false;
+      }
+    }
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    if(_videoPlayerController != null){
+      // 判断当前的视频控制器和保存的老的控制器是否是一个，是的话就进行销毁
+      if(APPInfo.oldVideoPlayerController == _videoPlayerController){
+        APPInfo.oldVideoPlayerController = null;
+      }
+      _videoPlayerController.pause();
+      _videoPlayerController.dispose();
+      _videoPlayerController = null;
+    }
+    if(_isShowPlayButton != null){
+      if(APPInfo.oldIsShowPlayButton == _isShowPlayButton){
+        APPInfo.oldIsShowPlayButton = null;
+      }
+      _isShowPlayButton.dispose();
+      _isShowPlayButton = null;
+    }
+    super.dispose();
+
+    print('------dispose-------');
   }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     String fmurl = APPInfo.HTTP_IMAGE_DOWNLOAD_REQUEST_URL + widget.dataModel?.image ?? '';
+    Widget videoPlayer;
+    if(_videoPlayerController != null &&
+        _videoPlayerController.value != null){
+      videoPlayer = VideoPlayer(_videoPlayerController);
+    }else {
+      videoPlayer = VideoPlayer(_videoPlayerController);
+    }
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 390,
@@ -72,8 +129,7 @@ class VideoItemViewState extends State<VideoItemView> {
                       return  Container(
                         width:snapshot.data.width.toDouble(),
                         height: snapshot.data.height.toDouble(),
-                        child: _videoPlayerController != null ?
-                        VideoPlayer(_videoPlayerController):Container(),
+                        child: videoPlayer,
                         decoration: BoxDecoration(
                             color: Colors.red,
                             image: DecorationImage(
@@ -106,9 +162,9 @@ class VideoItemViewState extends State<VideoItemView> {
                       child: Align(
                         alignment: Alignment.center,
                         child: Icon(
-                          Icons.play_arrow,
-                          color: Colors.white,
-                          size: 50,
+                          Icons.play_arrow_rounded,
+                          color: Colors.red,
+                          size: 80,
                         ),
                       ),
                     );

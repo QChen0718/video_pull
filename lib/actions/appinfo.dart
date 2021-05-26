@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_app_videolist/actions/dateformat.dart';
 import 'package:flutter_app_videolist/actions/sputil.dart';
 // import 'package:flutter_fish_redux_router_qt/actions/sputil.dart';
@@ -7,6 +8,7 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter_des/flutter_des.dart';
+import 'package:video_player/video_player.dart';
 class APPInfo{
   static const APP_KEY = "ycfiosiplqs93zpd98qjhayrm";
   // 接口密文
@@ -23,6 +25,8 @@ class APPInfo{
   static bool get isDebug => !bool.fromEnvironment("dart.vm.product");
 
   static const BASE_URL = 'https://test-api4app.1caifu.com/api/';
+  static VideoPlayerController oldVideoPlayerController ;
+  static ValueNotifier<bool> oldIsShowPlayButton;
 //  md5加密
   static String generateMd5(String data) {
     var content = new Utf8Encoder().convert(data);

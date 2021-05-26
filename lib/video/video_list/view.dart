@@ -3,6 +3,7 @@ import 'package:flutter_app_videolist/actions/appinfo.dart';
 import 'package:flutter_app_videolist/actions/mysliver.dart';
 import 'package:flutter_app_videolist/view/video_cell.dart';
 import 'package:get/get.dart';
+import 'package:video_player/video_player.dart';
 
 import 'logic.dart';
 import 'state.dart';
@@ -43,17 +44,26 @@ class VideoListPage extends StatelessWidget {
               cacheExtent: 0,
             );
           },
+          dispose: (dis){
+            print('页面销毁======>');
+            // 销毁GetController
+            Get.delete<VideoListLogic>();
+
+            if(APPInfo.oldVideoPlayerController != null){
+              // APPInfo.oldVideoPlayerController.dispose();
+              APPInfo.oldVideoPlayerController = null;
+            }
+            if(APPInfo.oldIsShowPlayButton != null){
+              APPInfo.oldIsShowPlayButton = null;
+            }
+          },
         ),
       ),
     );
   }
   _onEndScroll(ScrollMetrics metrics){
     print("Scroll End");
-    print('=========>' + APPInfo.index.toString() + 'oldIndex:' + state.oldIndex.toString());
-    if(state.oldIndex != APPInfo.index){
-      state.videoPlayerKeys[state.oldIndex].currentState?.stopVideoPlayer();
-      state.videoPlayerKeys[APPInfo.index].currentState?.initVideoPlayer();
-    }
-    state.oldIndex = APPInfo.index;
+    state.videoPlayerKeys[APPInfo.index].currentState?.stopVideoPlayer();
+    state.videoPlayerKeys[APPInfo.index].currentState?.startVideoPlayer();
   }
 }

@@ -27,8 +27,9 @@ class _VideoListPageState extends State<VideoListPage> {
     videos.forEach((_) {
       _videoPlayerKeys.add(GlobalKey());
     });
+
     Future.delayed(Duration(milliseconds: 500), () {
-      _videoPlayerKeys[0].currentState?.initVideoPlayer();
+      _videoPlayerKeys[0].currentState?.startVideoPlayer();
     });
     setState(() {});
   }
@@ -50,11 +51,13 @@ class _VideoListPageState extends State<VideoListPage> {
         },
         child: ListView.builder(
           itemCount: _videoList.length,
+          cacheExtent: 0,
           itemBuilder: (context,index){
             return Container(
                 child: VideoItemView(
                   key: _videoPlayerKeys[index],
-                  dataModel: _videoList[index],)
+                  dataModel: _videoList[index],
+                )
             );
           },
         ),
