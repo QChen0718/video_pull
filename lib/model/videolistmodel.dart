@@ -74,7 +74,7 @@ class VideoListSubDataModel {
   int count;
   int status;
   String row;
-
+  int time = 0; //记录播放的时间
   VideoListSubDataModel(
       {this.id,
         this.title,
@@ -89,7 +89,9 @@ class VideoListSubDataModel {
         this.attr,
         this.count,
         this.status,
-        this.row});
+        this.row,
+        this.time
+      });
 
   VideoListSubDataModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];

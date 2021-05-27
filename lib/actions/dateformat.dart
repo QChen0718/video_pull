@@ -24,4 +24,10 @@ class DateFormat {
             return datestr;
         }
     }
+
+    static String videoDateFormat(int milliseconds){
+        var currentDate = DateTime.fromMillisecondsSinceEpoch(milliseconds);
+
+        return formatDate(currentDate, [HH,':',mm,':',ss]);
+    }
 }

@@ -20,6 +20,7 @@ class APPInfo{
 //
   static int index;
   static int oldIndex = 0;
+  static int selectIndex = 0; //选择的视频
   static const productLiving  = 2;// 产品路演
   static const treasureLiving = 6;// 财富讲坛
   static bool get isDebug => !bool.fromEnvironment("dart.vm.product");
@@ -39,10 +40,10 @@ class APPInfo{
     return encryptstr;
   }
 // 时间戳转换成时分秒
-  static String durationToTime(int durationnumber){
-    int hours = ((((durationnumber / 1000) / 60)) /60 ).toInt();
-    int min = ((durationnumber / 1000) / 60).toInt();
-    int sec = ((durationnumber / 1000) % 60).toInt();
+  static String durationToTime(int durationNumber){
+    int hours = (((durationNumber / 1000) / 60)) ~/60;
+    int min = (durationNumber / 1000) ~/ 60 - (hours*60);
+    int sec = ((durationNumber / 1000) % 60).toInt();
     if (hours>0){
       return getType(hours) + ":" + getType(min) + ":" + getType(sec);
     }else{

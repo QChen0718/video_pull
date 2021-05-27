@@ -282,30 +282,56 @@ class MultipleVideoItemState extends State<MultipleVideoItem> with RouteAware{
       ],
     );
     // TODO: implement build
-    return GestureDetector(
-      onTap: () async{
-        if(_videoPlayerController == null || _videoPlayerController.value == null){
-          return;
-        }
-        if(_videoPlayerController.value.isPlaying){
-          if(_videoPlayerController != null){
-            await _videoPlayerController.pause();
-            _isPlayerNotifier.value = false;
-          }
-        }else{
-          if(_videoPlayerController != null) {
-            await _videoPlayerController.play();
-            _isPlayerNotifier.value = true;
-          }
-        }
-      },
-      child: Container(
-        height: double.infinity,
-        width: double.infinity,
-        color: Colors.black,
-        alignment: Alignment.center,
-        child: child,
-      ),
+    return  Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+              child: GestureDetector(
+                onTap: () async{
+                  if(_videoPlayerController == null || _videoPlayerController.value == null){
+                    return;
+                  }
+                  if(_videoPlayerController.value.isPlaying){
+                    if(_videoPlayerController != null){
+                      await _videoPlayerController.pause();
+                      _isPlayerNotifier.value = false;
+                    }
+                  }else{
+                    if(_videoPlayerController != null) {
+                      await _videoPlayerController.play();
+                      _isPlayerNotifier.value = true;
+                    }
+                  }
+                },
+                child: Container(
+                  height: double.infinity,
+                  width: double.infinity,
+                  color: Colors.black,
+                  alignment: Alignment.center,
+                  child: child,
+                ),
+              ),
+          ),
+         Container(
+              width: MediaQuery.of(context).size.width,
+              height: 15,
+              color: Colors.transparent,
+              child: _videoPlayerController != null ?
+              VideoProgressIndicator(
+                _videoPlayerController,
+                allowScrubbing: true, // 允许手势操作进度条
+                padding: EdgeInsets.only(top: 5,bottom: 5),
+                colors: VideoProgressColors( // 配置进度条颜色，也是video_player现成的，直接用
+                  playedColor: Colors.red,
+                  // 已播放的颜色
+                  bufferedColor: Color.fromRGBO(255, 255, 255, .5),
+                  // 缓存中的颜色
+                  backgroundColor: Color.fromRGBO(
+                      255, 255, 255, .2), // 为缓存的颜色
+                ),
+              ):Container(),
+          )
+        ],
     );
   }
 }

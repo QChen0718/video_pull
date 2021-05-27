@@ -9,6 +9,7 @@ class VideoListState {
   int pageSize;
   RxInt currentPage;
   int oldIndex;
+  bool isScreen;
   VideoListState() {
     /// Initialize variables
     videoList = [];
@@ -20,5 +21,7 @@ class VideoListState {
     currentPage = 1.obs;
     ///
     oldIndex = 0;
+    ///
+    isScreen = false;
   }
 }

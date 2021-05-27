@@ -16,7 +16,7 @@ class MySliverChildBuilderDelegate extends SliverChildBuilderDelegate {
   void didFinishLayout(int firstIndex, int lastIndex) {
     // TODO: implement didFinishLayout
     super.didFinishLayout(firstIndex, lastIndex);
-    print('firstIndex: $firstIndex, lastIndex: $lastIndex');
+    // print('firstIndex: $firstIndex, lastIndex: $lastIndex');
     APPInfo.index = firstIndex + 1;
   }
 }
