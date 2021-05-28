@@ -1,4 +1,5 @@
 import 'package:flutter_app_videolist/actions/appinfo.dart';
+import 'package:flutter_app_videolist/model/posterlistmodel.dart';
 import 'package:flutter_app_videolist/model/videolistmodel.dart';
 import 'package:flutter_app_videolist/newhttp/api_urls.dart';
 import 'package:flutter_app_videolist/newhttp/request.dart';
@@ -31,5 +32,18 @@ class RequestManager {
     return VideoListDataModel.fromJson(response.data);
   }
 
+/// 获取海报
+  static Future<List<PosterListDataModel>> getPosterListData(Map<String,dynamic> params) async {
+    BaseModel response = await Request.getInstance().post(url: ApiUrls.REQUEST_GET_ADRESOURCE_LIST,params: params);
+    if(response == null) {
+      return null;
+    }
+    print('--->${response.data}');
+    List<PosterListDataModel> dataList = [];
+    response.data.forEach((element) {
+      dataList.add(PosterListDataModel.fromJson(element));
+    });
+    return dataList;
+  }
 
 }

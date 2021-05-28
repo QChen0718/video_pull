@@ -87,7 +87,7 @@ class VideoListPage extends StatelessWidget {
           [SystemUiOverlay.top, SystemUiOverlay.bottom]);
       return false;
     }
-    // Get.back();
+
     return true;
   }
   _onEndScroll(ScrollMetrics metrics){

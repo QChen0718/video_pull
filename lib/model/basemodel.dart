@@ -2,6 +2,7 @@ class BaseModel{
   int totalCount;
   bool isSuccess;
   String errMsg;
+  int code;
   dynamic data;
 
   BaseModel({this.totalCount, this.isSuccess, this.errMsg,this.data});

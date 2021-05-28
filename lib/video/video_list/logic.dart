@@ -32,7 +32,7 @@ class VideoListLogic extends GetxController {
     params.addAll({
       'pageSize': state.pageSize,
       'pageIndex': state.currentPage.value,
-      'type': 2,
+      'type': 6,
       'userMobile': '18311055781',
       'userId': 1833334
     });

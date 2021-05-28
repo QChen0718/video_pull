@@ -1,5 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_videolist/actions/sputil.dart';
+import 'package:flutter_app_videolist/image_operation/OperationImage.dart';
+import 'package:flutter_app_videolist/list_pull/listpull.dart';
+import 'package:flutter_app_videolist/list_pull/listpull2.dart';
 import 'package:flutter_app_videolist/video/video_list_page.dart';
 import 'package:flutter_app_videolist/video/video_player_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -33,9 +37,34 @@ class MyApp extends StatelessWidget {
             // 主题色
             primarySwatch: Colors.blue,
           ),
+          builder: (BuildContext c, Widget w){
+            //重写修改widget，在视图上添加一个浮动视图
+            w = Stack(
+              children: <Widget>[
+                Positioned.fill(child: w),
+                Center(
+                  child: Container(
+                    width: 100,
+                    height: 200,
+                    color: Colors.red.withOpacity(0.5),
+                  ),
+                )
+
+              ],
+            );
+            // if (!kIsWeb) {
+            //   final MediaQueryData data = MediaQuery.of(c);
+            //   w = MediaQuery(
+            //     data: data.copyWith(textScaleFactor: 1.0),
+            //     child: w,
+            //   );
+            // }
+            return w;
+          },
           debugShowCheckedModeBanner: false,
           navigatorObservers: [routeObserver], //添加路由观察者
-          home: MultipleVideoPlayerPage(dynamicResourcesId: "0",),
+          home: OperationImagePage()
+          // MultipleVideoPlayerPage(dynamicResourcesId: "0",),
         )
     );
   }
