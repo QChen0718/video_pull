@@ -6,6 +6,7 @@ import 'package:flutter_app_videolist/list_pull/listpull.dart';
 import 'package:flutter_app_videolist/list_pull/listpull2.dart';
 import 'package:flutter_app_videolist/video/video_list_page.dart';
 import 'package:flutter_app_videolist/video/video_player_page.dart';
+import 'package:flutter_app_videolist/view/memory_usage_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 /// 监视页面切换(RouteObserver & RouteAware)
 void main() {
@@ -42,13 +43,7 @@ class MyApp extends StatelessWidget {
             w = Stack(
               children: <Widget>[
                 Positioned.fill(child: w),
-                Center(
-                  child: Container(
-                    width: 100,
-                    height: 200,
-                    color: Colors.red.withOpacity(0.5),
-                  ),
-                )
+                MemoryUsageView()
 
               ],
             );
