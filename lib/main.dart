@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_videolist/actions/sputil.dart';
 import 'package:flutter_app_videolist/image_operation/OperationImage.dart';
+import 'package:flutter_app_videolist/list_az/list_styles.dart';
 import 'package:flutter_app_videolist/list_pull/listpull.dart';
 import 'package:flutter_app_videolist/list_pull/listpull2.dart';
 import 'package:flutter_app_videolist/video/video_list_page.dart';
@@ -58,7 +59,7 @@ class MyApp extends StatelessWidget {
           },
           debugShowCheckedModeBanner: false,
           navigatorObservers: [routeObserver], //添加路由观察者
-          home: OperationImagePage()
+          home: StylesListPage()
           // MultipleVideoPlayerPage(dynamicResourcesId: "0",),
         )
     );
