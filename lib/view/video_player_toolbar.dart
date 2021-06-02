@@ -18,6 +18,7 @@ class VideoPlayerToolbar extends StatefulWidget{
 class _VideoPlayerToolbarState extends State<VideoPlayerToolbar>{
   ValueNotifier<int> position = ValueNotifier(0);
   VoidCallback listener;
+  var playerPosition = 0.0;
   _VideoPlayerToolbarState(){
     listener = (){
       //控制器监听
@@ -48,64 +49,96 @@ class _VideoPlayerToolbarState extends State<VideoPlayerToolbar>{
       width: MediaQuery.of(context).size.width,
       height: 30,
       color: Colors.black.withOpacity(0.5),
-      child: Row(
-        children: [
-          Container(
-            margin: EdgeInsets.only(left: 10,right: 10),
-            child: ValueListenableBuilder(
-              valueListenable: position,
-              builder: (context,value,child){
-                return RichText(
-                    text: TextSpan(
-                        text: APPInfo.durationToTime(value) ?? '--',
-                        children:[
-                          TextSpan(
-                              text: '/',
-                              style: TextStyle(
-                                  color: Colors.white.withOpacity(0.5),
-                                  fontSize: 16
-                              )
-                          ),
-                          TextSpan(
-                              text: widget.totalDuration ?? '--',
-                              style: TextStyle(
-                                  color: Colors.white.withOpacity(0.5),
-                                  fontSize: 16
-                              )
-                          )
-                        ]
-                    )
-                );
-              },
+      child: SliderTheme(
+        data: SliderThemeData(thumbShape: RoundSliderThumbShape(enabledThumbRadius: 5)), //设置进度指标大小
+        child: Row(
+          children: [
+            Container(
+              margin: EdgeInsets.only(left: 10,right: 10),
+              child: ValueListenableBuilder(
+                valueListenable: position,
+                builder: (context,value,child){
+                  return RichText(
+                      text: TextSpan(
+                          text: APPInfo.durationToTime(value) ?? '--',
+                          children:[
+                            TextSpan(
+                                text: '/',
+                                style: TextStyle(
+                                    color: Colors.white.withOpacity(0.5),
+                                    fontSize: 16
+                                )
+                            ),
+                            TextSpan(
+                                text: widget.totalDuration ?? '--',
+                                style: TextStyle(
+                                    color: Colors.white.withOpacity(0.5),
+                                    fontSize: 16
+                                )
+                            )
+                          ]
+                      )
+                  );
+                },
+              ),
             ),
-          ),
-          Expanded(
-              child: VideoProgressIndicator( // 嘻嘻，这是video_player编写好的进度条，直接用就是了~~
-                widget.videoPlayerController,
-                allowScrubbing: true, // 允许手势操作进度条
-                padding: EdgeInsets.only(top: 5,bottom: 5),
-                colors: VideoProgressColors( // 配置进度条颜色，也是video_player现成的，直接用
-                  playedColor: Colors.red,
-                  // 已播放的颜色
-                  bufferedColor: Color.fromRGBO(255, 255, 255, .5),
-                  // 缓存中的颜色
-                  backgroundColor: Color.fromRGBO(
-                      255, 255, 255, .2), // 为缓存的颜色
+            Expanded(
+                child: ValueListenableBuilder(
+                  valueListenable: position,
+                  builder: (context,value,child){
+                    return Stack(
+                      fit: StackFit.passthrough,
+                      children: <Widget>[
+                        Slider(
+                          value: position.value.toDouble().clamp(0.0, widget.videoPlayerController.value.duration.inMilliseconds.toDouble()),
+                          min: 0.0,
+                          activeColor: Colors.red,
+                          inactiveColor: Colors.white,
+                          max: widget.videoPlayerController.value.duration.inMilliseconds.toDouble(),
+                          onChangeStart: (value) {
+                            widget.videoPlayerController.removeListener(listener);
+                            position.value = value.round();
+                            print('value:$value');
+                          },
+                          onChanged: (value) {
+                              position.value = value.round();
+                          },
+                          onChangeEnd: (value) async {
+                            widget.videoPlayerController.seekTo(Duration(milliseconds: value.round()));
+                            widget.videoPlayerController.addListener(listener);
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              // VideoProgressIndicator( // 嘻嘻，这是video_player编写好的进度条，直接用就是了~~
+              //   widget.videoPlayerController,
+              //   allowScrubbing: true, // 允许手势操作进度条
+              //   padding: EdgeInsets.only(top: 5,bottom: 5),
+              //   colors: VideoProgressColors( // 配置进度条颜色，也是video_player现成的，直接用
+              //     playedColor: Colors.red,
+              //     // 已播放的颜色
+              //     bufferedColor: Color.fromRGBO(255, 255, 255, .5),
+              //     // 缓存中的颜色
+              //     backgroundColor: Color.fromRGBO(
+              //         255, 255, 255, .2), // 为缓存的颜色
+              //   ),
+              // ),
+            ),
+            GestureDetector(
+              onTap: _toggleFullScreen,
+              child: Container(
+                width: 30,
+                height: 30,
+                margin: EdgeInsets.only(left: 20,right: 20),
+                child: Icon(
+                    Icons.fullscreen
                 ),
               ),
-          ),
-          GestureDetector(
-            onTap: _toggleFullScreen,
-            child: Container(
-              width: 30,
-              height: 30,
-              margin: EdgeInsets.only(left: 20,right: 20),
-              child: Icon(
-                  Icons.fullscreen
-              ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

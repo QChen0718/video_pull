@@ -59,8 +59,7 @@ class MyApp extends StatelessWidget {
           },
           debugShowCheckedModeBanner: false,
           navigatorObservers: [routeObserver], //添加路由观察者
-          home: StylesListPage()
-          // MultipleVideoPlayerPage(dynamicResourcesId: "0",),
+          home: MultipleVideoPlayerPage(dynamicResourcesId: "0",),
         )
     );
   }
